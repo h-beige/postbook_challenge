@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.postbookchallenge.R;
+import com.example.postbookchallenge.common.IntentFactory;
 import com.example.postbookchallenge.common.UiHelper;
 import com.example.postbookchallenge.presentation.base.BaseView;
 
@@ -65,13 +66,8 @@ public class LoginView
     }
 
     @Override
-    public void navigateToPosts(@NonNull String userId) {
-        Toast.makeText(this, "Navigate to posts", Toast.LENGTH_SHORT).show();
+    public void navigateToPosts(int userId) {
+        startActivity(IntentFactory.createPostsIntent(this, userId));
     }
 
-    @Override
-    public void feedbackServiceError() {
-        Toast.makeText(this, getString(R.string.login_feedback_service_error), Toast.LENGTH_SHORT)
-             .show();
-    }
 }

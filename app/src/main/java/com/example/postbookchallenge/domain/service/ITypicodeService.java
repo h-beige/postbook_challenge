@@ -1,5 +1,8 @@
 package com.example.postbookchallenge.domain.service;
 
+import com.example.postbookchallenge.domain.entities.PostEntity;
+import com.example.postbookchallenge.domain.entities.UserEntity;
+
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -16,4 +19,13 @@ public interface ITypicodeService {
      */
     @GET("users")
     Observable<List<UserEntity>> getUsers(@Query("id") String userId);
+
+    /**
+     * Example of resulting URL: https://jsonplaceholder.typicode.com/posts?userId=6
+     *
+     * @param userId the id to query
+     * @return Observable of the
+     */
+    @GET("posts")
+    Observable<List<PostEntity>> getPosts(@Query("userId") int userId);
 }

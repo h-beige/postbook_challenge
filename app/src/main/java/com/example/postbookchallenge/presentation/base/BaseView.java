@@ -1,10 +1,14 @@
 package com.example.postbookchallenge.presentation.base;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.example.postbookchallenge.R;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +30,7 @@ abstract public class BaseView<T extends IBasePresenter>
     private boolean isActive;
 
     private Dialog dialog;
+    private ProgressDialog progressDialog;
 
     @Override
     abstract public T createPresenter();
@@ -200,4 +205,27 @@ abstract public class BaseView<T extends IBasePresenter>
             logger.debug(methodName + ": " + getClass().getSimpleName() + " - " + additionalInfo);
         }
     }
+
+    @Override
+    public void feedbackServiceError() {
+        Toast.makeText(this, getString(R.string.login_feedback_service_error), Toast.LENGTH_SHORT)
+             .show();
+    }
+
+    public void startLoading() {
+        progressDialog = ProgressDialog.show(this,
+                                             null,
+                                             getString(R.string.general_label_loading),
+                                             true);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+    }
+
+    public void stopLoading() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+    }
+
 }

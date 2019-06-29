@@ -2,22 +2,24 @@ package com.example.postbookchallenge.domain.usecase.login;
 
 import com.example.postbookchallenge.domain.service.ITypicodeService;
 import com.example.postbookchallenge.domain.service.TypicodeApi;
-import com.example.postbookchallenge.domain.service.UserEntity;
+import com.example.postbookchallenge.domain.entities.UserEntity;
 
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
 
+@Singleton
 public class LoginUseCase {
 
     private final TypicodeApi typicodeApi;
 
     @Inject
-    public LoginUseCase(@NonNull TypicodeApi typicodeApi) {
+    LoginUseCase(@NonNull TypicodeApi typicodeApi) {
         this.typicodeApi = typicodeApi;
     }
 

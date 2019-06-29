@@ -38,6 +38,7 @@ public class LoginPresenter
             return;
         }
 
+        view.startLoading();
         Disposable disposable = loginUseCase
                 .checkUserId(userId)
                 .subscribeOn(Schedulers.io())
@@ -45,8 +46,9 @@ public class LoginPresenter
                 .subscribeWith(new DisposableSingleObserver<Boolean>(){
                     @Override
                     public void onSuccess(Boolean isValidUserId) {
+                        view.stopLoading();
                         if(isValidUserId) {
-                            view.navigateToPosts(userId);
+                            view.navigateToPosts(Integer.parseInt(userId));
                         }
                         else {
                             view.feedbackInvalidUserId();
@@ -56,6 +58,7 @@ public class LoginPresenter
                     @Override
                     public void onError(Throwable e) {
                         logger.error("An error occurred while checking the user id", e);
+                        view.stopLoading();
                         view.feedbackServiceError();
                     }
                 });

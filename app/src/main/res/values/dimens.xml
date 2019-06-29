@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="space">24dp</dimen>
+    <dimen name="space_half">12dp</dimen>
     <dimen name="login_user_id_width">100dp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
 </resources>

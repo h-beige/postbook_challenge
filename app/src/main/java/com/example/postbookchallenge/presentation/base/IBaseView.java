@@ -65,4 +65,20 @@ public interface IBaseView {
      * @return true if active
      */
     boolean isActive();
+
+    /**
+     * Show user feedback that the service request failed
+     */
+    void feedbackServiceError();
+
+
+    /**
+     * Show progress throbber while loading
+     */
+    void startLoading();
+
+    /**
+     * Hide progress throbber after loading finished
+     */
+    void stopLoading();
 }

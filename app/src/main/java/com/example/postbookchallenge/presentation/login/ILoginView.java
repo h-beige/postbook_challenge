@@ -21,10 +21,5 @@ public interface ILoginView
      *
      * @param userId the entered userId
      */
-    void navigateToPosts(@NonNull String userId);
-
-    /**
-     * Show user feedback that the service request failed
-     */
-    void feedbackServiceError();
+    void navigateToPosts(int userId);
 }
