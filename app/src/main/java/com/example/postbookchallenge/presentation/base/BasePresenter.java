@@ -7,12 +7,16 @@ import android.os.Bundle;
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-abstract public class BasePresenter<T extends IBaseView> implements IBasePresenter {
-
+abstract public class BasePresenter<T extends IBaseView>
+        implements IBasePresenter {
 
     protected final T view;
+
+    private CompositeDisposable compositeDisposable;
 
     @SuppressWarnings("unused")
     protected BasePresenter(@NonNull T view) {
@@ -60,6 +64,7 @@ abstract public class BasePresenter<T extends IBaseView> implements IBasePresent
     @CallSuper
     @Override
     public void onPause() {
+        disposeDisposable();
     }
 
     /**
@@ -80,5 +85,28 @@ abstract public class BasePresenter<T extends IBaseView> implements IBasePresent
     @SuppressWarnings("unused")
     protected Context getApplicationContext() {
         return ((Context) view).getApplicationContext();
+    }
+
+    /**
+     * Add a disposable to the composite disposable of this presenter
+     * <p>
+     * The composite disposable will automatically be disposed {@link #onPause()}
+     *
+     * @param disposable the disposable to add to the composite disposable
+     */
+    protected void addDisposable(@NonNull Disposable disposable) {
+        if(compositeDisposable == null) {
+            compositeDisposable = new CompositeDisposable();
+        }
+        compositeDisposable.add(disposable);
+    }
+
+    /**
+     * Dispose all disposable contained in the composite disposable
+     */
+    protected void disposeDisposable() {
+        if(compositeDisposable != null) {
+            compositeDisposable.clear();
+        }
     }
 }

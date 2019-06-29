@@ -13,6 +13,7 @@ import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import butterknife.ButterKnife;
 
 abstract public class BaseView<T extends IBasePresenter>
         extends AppCompatActivity
@@ -34,7 +35,9 @@ abstract public class BaseView<T extends IBasePresenter>
     protected void onCreate(@Nullable Bundle inState) {
         logMethod("onCreate(<inState>)");
         super.onCreate(inState);
+
         setContentView(getContentViewResourceId());
+        ButterKnife.bind(this);
 
         postSetContentView();
 
