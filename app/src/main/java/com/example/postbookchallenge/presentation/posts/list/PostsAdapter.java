@@ -7,6 +7,7 @@ import com.example.postbookchallenge.PostBookChallengeApplication;
 import com.example.postbookchallenge.R;
 import com.example.postbookchallenge.domain.entities.PostEntity;
 import com.example.postbookchallenge.domain.favourites.Favourites;
+import com.example.postbookchallenge.presentation.posts.IClickOnPostListener;
 
 import java.util.List;
 
@@ -23,8 +24,11 @@ public class PostsAdapter
     @Inject
     Favourites favourites;
 
-    public PostsAdapter() {
+    private IClickOnPostListener clickOnPostListener;
+
+    public PostsAdapter(IClickOnPostListener clickOnPostListener) {
         PostBookChallengeApplication.getComponent().inject(this);
+        this.clickOnPostListener = clickOnPostListener;
     }
 
     @NonNull
@@ -38,12 +42,12 @@ public class PostsAdapter
     @Override
     public void onBindViewHolder(@NonNull PostsViewHolder holder, int position) {
         PostEntity postEntity = posts.get(position);
-        holder.setPost(postEntity, favourites);
+        holder.setPost(postEntity, favourites, clickOnPostListener);
     }
 
     @Override
     public int getItemCount() {
-        return posts.size();
+        return posts == null ? 0 : posts.size();
     }
 
     public void setPosts(@NonNull List<PostEntity> posts) {

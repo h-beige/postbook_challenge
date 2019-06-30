@@ -3,6 +3,9 @@
 
     <string name="general_label_loading">Loading …</string>
 
+    <string name="comments_label_no_comments">No comments available</string>
+    <string name="comments_toolbar_label">Comments</string>
+
     <string name="login_button_label_login">Login</string>
     <string name="login_feedback_user_id_empty">Please enter a user id</string>
     <string name="login_feedback_user_id_invalid">The entered user id does not exist</string>
@@ -12,6 +15,7 @@
 
     <string name="posts_label_filter_all">All</string>
     <string name="posts_label_filter_favourites">Fav</string>
-    <string name="posts_toolbar_label">My Posts</string>
     <string name="posts_label_no_posts">No posts available</string>
+    <string name="posts_toolbar_label">My Posts</string>
+
 </resources>

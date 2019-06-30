@@ -26,6 +26,9 @@
         <activity
             android:name=".presentation.posts.PostsView"
             android:label="@string/posts_toolbar_label" />
+        <activity
+            android:name=".presentation.comments.CommentsView"
+            android:label="@string/comments_toolbar_label"/>
 
     </application>
 

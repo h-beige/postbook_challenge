@@ -33,6 +33,10 @@ public class PostEntity {
     }
 
     public String getKey() {
-        return userId + "_" + id;
+        return getKey(userId, id);
+    }
+
+    public static String getKey(int userId, int postId) {
+        return userId + "_" + postId;
     }
 }

@@ -24,7 +24,8 @@ import butterknife.BindView;
 public class PostsView
         extends BaseView<IPostsPresenter>
         implements IPostsView,
-                   View.OnClickListener {
+                   View.OnClickListener,
+                   IClickOnPostListener {
 
     public static final int FILTER_ALL = 0;
     public static final int FILTER_FAVOURITES = 1;
@@ -44,7 +45,7 @@ public class PostsView
     @Override
     public IPostsPresenter createPresenter() {
         Intent intent = getIntent();
-        int userId = intent.getIntExtra(IntentFactory.INTENT_EXTRA_USER_ID,-1);
+        int userId = intent.getIntExtra(IntentFactory.INTENT_EXTRA_USER_ID, -1);
         return new PostsPresenter(this, userId);
     }
 
@@ -87,8 +88,8 @@ public class PostsView
         }
 
 
-        if (postsAdapter == null) {
-            postsAdapter = new PostsAdapter();
+        if(postsAdapter == null) {
+            postsAdapter = new PostsAdapter(this);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             rvPosts.setLayoutManager(layoutManager);
             rvPosts.setAdapter(postsAdapter);
@@ -101,6 +102,13 @@ public class PostsView
         @ColorInt int checked = ContextCompat.getColor(this, R.color.filterChecked);
         @ColorInt int unchecked = ContextCompat.getColor(this, R.color.filterUnChecked);
         tvFilterAll.setBackgroundColor(filterState == FILTER_ALL ? checked : unchecked);
-        tvFilterFavourites.setBackgroundColor(filterState == FILTER_FAVOURITES ? checked : unchecked);
+        tvFilterFavourites.setBackgroundColor(filterState == FILTER_FAVOURITES
+                                              ? checked
+                                              : unchecked);
+    }
+
+    @Override
+    public void onPostClick(int userId, int postId) {
+        startActivity(IntentFactory.createCommentsIntent(this, userId, postId));
     }
 }

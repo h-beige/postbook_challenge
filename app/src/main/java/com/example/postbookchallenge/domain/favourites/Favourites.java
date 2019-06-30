@@ -64,6 +64,11 @@ public class Favourites {
         return favouritePostIds;
     }
 
+    public boolean isFavourite(int userId, int postId) {
+        Set<String> favouritePostIds = getFavouritePosts();
+        return favouritePostIds.contains(PostEntity.getKey(userId, postId));
+    }
+
     public boolean isFavourite(PostEntity postEntity) {
         Set<String> favouritePostIds = getFavouritePosts();
         return favouritePostIds.contains(postEntity.getKey());

@@ -8,6 +8,9 @@ import com.example.postbookchallenge.domain.usecase.posts.PostsDescription;
 import com.example.postbookchallenge.domain.usecase.posts.PostsUseCase;
 import com.example.postbookchallenge.presentation.base.BasePresenter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
@@ -22,6 +25,8 @@ import io.reactivex.schedulers.Schedulers;
 public class PostsPresenter
         extends BasePresenter<IPostsView>
         implements IPostsPresenter {
+
+    private static final Logger logger = LoggerFactory.getLogger(PostsPresenter.class.getSimpleName());
 
     @State @PostsView.FilterState Integer filterState;
 
@@ -76,6 +81,7 @@ public class PostsPresenter
 
             @Override
             public void onError(Throwable e) {
+                logger.error("An error occurred while checking the user id", e);
                 view.stopLoading();
                 view.feedbackServiceError();
             }

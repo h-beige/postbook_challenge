@@ -1,5 +1,6 @@
 package com.example.postbookchallenge.domain.service;
 
+import com.example.postbookchallenge.domain.entities.CommentEntity;
 import com.example.postbookchallenge.domain.entities.PostEntity;
 import com.example.postbookchallenge.domain.entities.UserEntity;
 
@@ -28,4 +29,22 @@ public interface ITypicodeService {
      */
     @GET("posts")
     Observable<List<PostEntity>> getPosts(@Query("userId") int userId);
+
+    /**
+     * Example of resulting URL: https://jsonplaceholder.typicode.com/posts?id=52
+     *
+     * @param postId the id to query
+     * @return Observable of the
+     */
+    @GET("posts")
+    Observable<List<PostEntity>> getPost(@Query("id") int postId);
+
+    /**
+     * Example of resulting URL: https://jsonplaceholder.typicode.com/comments?postId=1
+     *
+     * @param postId the id to query
+     * @return Observable of the
+     */
+    @GET("comments")
+    Observable<List<CommentEntity>> getComments(@Query("postId") int postId);
 }
