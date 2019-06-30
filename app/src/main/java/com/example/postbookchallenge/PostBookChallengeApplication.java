@@ -9,7 +9,8 @@ import android.preference.PreferenceManager;
 import com.example.postbookchallenge.infrastructure.dagger.DaggerMyComponent;
 import com.example.postbookchallenge.infrastructure.dagger.MyComponent;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 
 public class PostBookChallengeApplication
         extends Application {
@@ -26,6 +27,9 @@ public class PostBookChallengeApplication
         appContext = getApplicationContext();
     }
 
+    /**
+     * @return provide dagger component
+     */
     public static MyComponent getMyComponent() {
         if(myComponent == null) {
             myComponent = DaggerMyComponent.builder().build();
@@ -33,8 +37,14 @@ public class PostBookChallengeApplication
         return myComponent;
     }
 
-    public static void setComponent(@Nullable MyComponent newMyComponent) {
+    @VisibleForTesting()
+    public static void setComponent(@NonNull MyComponent newMyComponent) {
         myComponent = newMyComponent;
+    }
+
+    @VisibleForTesting()
+    public static void resetComponent() {
+        myComponent = null;
     }
 
     /**

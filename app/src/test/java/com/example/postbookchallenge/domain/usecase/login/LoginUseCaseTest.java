@@ -39,30 +39,29 @@ public class LoginUseCaseTest {
         testSubject = new LoginUseCase(mockTypicodeApi);
     }
 
-    @After
-    public void tearDown() {
-        PostBookChallengeApplication.setComponent(null);
-    }
-
     /**
      * Test the happy path. The service request delivered exactly one user for the passed user id. Further processing succeeded
      */
     @Test
     public void test_checkUserId_happyPath() {
 
+        //create service response content
         String userId = "6";
         List<UserEntity> userEntities = new ArrayList<>();
         userEntities.add(new UserEntity().setId(userId));
 
         doReturn(Observable.just(userEntities)).when(mockITypicodeService).getUsers(userId);
 
+        //run actual test
         TestObserver<Boolean> testObserver = new TestObserver<>();
+
         //noinspection ResultOfMethodCallIgnored
         testSubject
                 .checkUserId(userId)
                 .subscribeOn(Schedulers.trampoline())
                 .subscribeWith(testObserver);
 
+        //assert expected result - single emitted element == true
         testObserver.assertSubscribed();
         testObserver.assertNoErrors();
         testObserver.assertComplete();
@@ -76,16 +75,20 @@ public class LoginUseCaseTest {
     @Test
     public void test_checkUserId_noUserFound() {
 
+        //create service response content
         String userId = "6";
         doReturn(Observable.just(new ArrayList<>())).when(mockITypicodeService).getUsers(userId);
 
+        //run actual test
         TestObserver<Boolean> testObserver = new TestObserver<>();
+
         //noinspection ResultOfMethodCallIgnored
         testSubject
                 .checkUserId(userId)
                 .subscribeOn(Schedulers.trampoline())
                 .subscribeWith(testObserver);
 
+        //assert expected result - single emitted element == false
         testObserver.assertSubscribed();
         testObserver.assertNoErrors();
         testObserver.assertComplete();
@@ -99,6 +102,7 @@ public class LoginUseCaseTest {
     @Test
     public void test_checkUserId_multipleUsersFound() {
 
+        //create service response content
         String userId = "6";
         List<UserEntity> userEntities = new ArrayList<>();
         userEntities.add(new UserEntity().setId(userId));
@@ -106,13 +110,16 @@ public class LoginUseCaseTest {
 
         doReturn(Observable.just(userEntities)).when(mockITypicodeService).getUsers(userId);
 
+        //run actual test
         TestObserver<Boolean> testObserver = new TestObserver<>();
+
         //noinspection ResultOfMethodCallIgnored
         testSubject
                 .checkUserId(userId)
                 .subscribeOn(Schedulers.trampoline())
                 .subscribeWith(testObserver);
 
+        //assert expected result - single emitted element == false
         testObserver.assertSubscribed();
         testObserver.assertNoErrors();
         testObserver.assertComplete();
@@ -127,24 +134,26 @@ public class LoginUseCaseTest {
     public void test_checkUserId_exceptionWhileLoading() {
 
         String userId = "6";
-        List<UserEntity> userEntities = new ArrayList<>();
-        userEntities.add(new UserEntity().setId(userId));
 
+        //prepare exception throwing in rxJava execution chain
         Exception expectedException = new Exception("Test exception");
         Observable<List<UserEntity>> observable = Observable
-                .just(userEntities)
+                .just(true)
                 .map(userEntities1 -> {
                     throw expectedException;
                 });
         doReturn(observable).when(mockITypicodeService).getUsers(userId);
 
+        //run actual test
         TestObserver<Boolean> testObserver = new TestObserver<>();
+
         //noinspection ResultOfMethodCallIgnored
         testSubject
                 .checkUserId(userId)
                 .subscribeOn(Schedulers.trampoline())
                 .subscribeWith(testObserver);
 
+        //assert expected result - SingleObserver.onError executed
         testObserver.assertSubscribed();
         testObserver.assertError(expectedException);
         testObserver.assertNotComplete();
