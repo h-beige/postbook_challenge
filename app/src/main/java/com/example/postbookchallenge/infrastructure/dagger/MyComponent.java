@@ -8,8 +8,8 @@ import com.example.postbookchallenge.presentation.posts.list.PostsAdapter;
 import javax.inject.Singleton;
 
 @Singleton
-@dagger.Component(modules = Module.class)
-public interface Component {
+@dagger.Component(modules = MyModule.class)
+public interface MyComponent {
     void inject(CommentsPresenter instance);
     void inject(LoginPresenter instance);
     void inject(PostsAdapter postsinstance);

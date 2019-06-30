@@ -19,7 +19,7 @@ public class LoginUseCase {
     private final TypicodeApi typicodeApi;
 
     @Inject
-    LoginUseCase(@NonNull TypicodeApi typicodeApi) {
+    public LoginUseCase(@NonNull TypicodeApi typicodeApi) {
         this.typicodeApi = typicodeApi;
     }
 

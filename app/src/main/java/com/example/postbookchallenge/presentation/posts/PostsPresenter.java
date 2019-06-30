@@ -6,6 +6,7 @@ import com.example.postbookchallenge.PostBookChallengeApplication;
 import com.example.postbookchallenge.domain.favourites.Favourites;
 import com.example.postbookchallenge.domain.usecase.posts.PostsDescription;
 import com.example.postbookchallenge.domain.usecase.posts.PostsUseCase;
+import com.example.postbookchallenge.infrastructure.rxjava.MySchedulers;
 import com.example.postbookchallenge.presentation.base.BasePresenter;
 
 import org.slf4j.Logger;
@@ -17,10 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import icepick.Icepick;
 import icepick.State;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
 
 public class PostsPresenter
         extends BasePresenter<IPostsView>
@@ -32,12 +31,13 @@ public class PostsPresenter
 
     @Inject PostsUseCase postsUseCase;
     @Inject Favourites favourites;
+    @Inject MySchedulers mySchedulers;
 
     private final int userId;
 
     PostsPresenter(@NonNull IPostsView view, int userId) {
         super(view);
-        PostBookChallengeApplication.getComponent().inject(this);
+        PostBookChallengeApplication.getMyComponent().inject(this);
         this.userId = userId;
     }
 
@@ -70,22 +70,22 @@ public class PostsPresenter
         view.startLoading();
         Disposable disposable = postsUseCase
                 .loadPosts(userId, filterState, favourites.getFavouritePosts())
-                .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribeWith(new DisposableSingleObserver<PostsDescription>() {
-            @Override
-            public void onSuccess(PostsDescription postsDescription) {
-                view.stopLoading();
-                view.setContent(postsDescription);
-            }
+                .subscribeOn(mySchedulers.io())
+                .observeOn(mySchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<PostsDescription>() {
+                    @Override
+                    public void onSuccess(PostsDescription postsDescription) {
+                        view.stopLoading();
+                        view.setContent(postsDescription);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                logger.error("An error occurred while checking the user id", e);
-                view.stopLoading();
-                view.feedbackServiceError();
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        logger.error("An error occurred while checking the user id", e);
+                        view.stopLoading();
+                        view.feedbackServiceError();
+                    }
+                });
 
         addDisposable(disposable);
     }

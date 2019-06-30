@@ -27,7 +27,7 @@ public class PostsAdapter
     private IClickOnPostListener clickOnPostListener;
 
     public PostsAdapter(IClickOnPostListener clickOnPostListener) {
-        PostBookChallengeApplication.getComponent().inject(this);
+        PostBookChallengeApplication.getMyComponent().inject(this);
         this.clickOnPostListener = clickOnPostListener;
     }
 

@@ -13,7 +13,7 @@ public class TypicodeApi {
     private static Retrofit retrofit = null;
 
     @Inject
-    TypicodeApi() {
+    public TypicodeApi() {
     }
 
     private Retrofit getClient() {

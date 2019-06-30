@@ -5,6 +5,7 @@ import com.example.postbookchallenge.domain.entities.PostEntity;
 import com.example.postbookchallenge.domain.favourites.Favourites;
 import com.example.postbookchallenge.domain.usecase.comments.CommentsDescription;
 import com.example.postbookchallenge.domain.usecase.comments.CommentsUseCase;
+import com.example.postbookchallenge.infrastructure.rxjava.MySchedulers;
 import com.example.postbookchallenge.presentation.base.BasePresenter;
 
 import org.slf4j.Logger;
@@ -13,10 +14,8 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
 
 public class CommentsPresenter
         extends BasePresenter<ICommentsView>
@@ -26,6 +25,7 @@ public class CommentsPresenter
 
     @Inject Favourites favourites;
     @Inject CommentsUseCase commentsUseCase;
+    @Inject MySchedulers mySchedulers;
 
     private final int userId;
     private final int postId;
@@ -35,7 +35,7 @@ public class CommentsPresenter
         this.userId = userId;
         this.postId = postId;
 
-        PostBookChallengeApplication.getComponent().inject(this);
+        PostBookChallengeApplication.getMyComponent().inject(this);
     }
 
     public void onResume() {
@@ -50,8 +50,8 @@ public class CommentsPresenter
         view.startLoading();
         Disposable disposable = commentsUseCase
                 .loadComments(postId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(mySchedulers.io())
+                .observeOn(mySchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<CommentsDescription>() {
                     @Override
                     public void onSuccess(CommentsDescription commentsDescription) {
@@ -72,8 +72,8 @@ public class CommentsPresenter
     private void loadPost() {
         Disposable disposable = commentsUseCase
                 .loadPost(postId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(mySchedulers.io())
+                .observeOn(mySchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<PostEntity>() {
                     @Override
                     public void onSuccess(PostEntity postEntity) {

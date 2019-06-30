@@ -2,6 +2,7 @@ package com.example.postbookchallenge.presentation.login;
 
 import com.example.postbookchallenge.PostBookChallengeApplication;
 import com.example.postbookchallenge.domain.usecase.login.LoginUseCase;
+import com.example.postbookchallenge.infrastructure.rxjava.MySchedulers;
 import com.example.postbookchallenge.presentation.base.BasePresenter;
 
 import org.apache.commons.lang3.StringUtils;
@@ -11,10 +12,8 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
 
 public class LoginPresenter
         extends BasePresenter<ILoginView>
@@ -22,13 +21,13 @@ public class LoginPresenter
 
     private static final Logger logger = LoggerFactory.getLogger(LoginPresenter.class.getSimpleName());
 
-    @Inject
-    LoginUseCase loginUseCase;
+    @Inject LoginUseCase loginUseCase;
+    @Inject MySchedulers mySchedulers;
 
     LoginPresenter(@NonNull ILoginView view) {
         super(view);
 
-        PostBookChallengeApplication.getComponent().inject(this);
+        PostBookChallengeApplication.getMyComponent().inject(this);
     }
 
     @Override
@@ -41,8 +40,8 @@ public class LoginPresenter
         view.startLoading();
         Disposable disposable = loginUseCase
                 .checkUserId(userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(mySchedulers.io())
+                .observeOn(mySchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<Boolean>(){
                     @Override
                     public void onSuccess(Boolean isValidUserId) {

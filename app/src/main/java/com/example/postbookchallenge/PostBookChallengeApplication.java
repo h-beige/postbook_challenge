@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.example.postbookchallenge.infrastructure.dagger.Component;
-import com.example.postbookchallenge.infrastructure.dagger.DaggerComponent;
+import com.example.postbookchallenge.infrastructure.dagger.DaggerMyComponent;
+import com.example.postbookchallenge.infrastructure.dagger.MyComponent;
+
+import androidx.annotation.Nullable;
 
 public class PostBookChallengeApplication
         extends Application {
@@ -16,17 +18,23 @@ public class PostBookChallengeApplication
     @SuppressLint("StaticFieldLeak")
     private static Context appContext;
 
-    private static Component component;
+    private static MyComponent myComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         appContext = getApplicationContext();
-        component = DaggerComponent.builder().build();
     }
 
-    public static Component getComponent() {
-        return component;
+    public static MyComponent getMyComponent() {
+        if(myComponent == null) {
+            myComponent = DaggerMyComponent.builder().build();
+        }
+        return myComponent;
+    }
+
+    public static void setComponent(@Nullable MyComponent newMyComponent) {
+        myComponent = newMyComponent;
     }
 
     /**
