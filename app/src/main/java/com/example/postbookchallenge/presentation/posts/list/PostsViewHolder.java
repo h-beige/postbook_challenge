@@ -19,9 +19,9 @@ class PostsViewHolder
 
     private final PostsAdapter postsAdapter;
 
-    private TextView tvTitle;
-    private TextView tvBody;
-    private TextView tvFavourite;
+    private final TextView tvTitle;
+    private final TextView tvBody;
+    private final TextView tvFavourite;
 
     PostsViewHolder(@NonNull View itemView, @NonNull PostsAdapter postsAdapter) {
         super(itemView);

@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CommentsViewHolder
         extends RecyclerView.ViewHolder {
 
-    private TextView tvTitle;
-    private TextView tvBody;
+    private final TextView tvTitle;
+    private final TextView tvBody;
 
     CommentsViewHolder(@NonNull View itemView) {
         super(itemView);

@@ -40,7 +40,7 @@ public class CommentsUseCase {
     /**
      * Load a single post
      *
-     * @param postId the postId of thepost
+     * @param postId the postId of the post
      * @return the single wrapping the post
      */
     public Single<PostEntity> loadPost(int postId) {

@@ -24,7 +24,7 @@ public class PostsAdapter
     @Inject
     Favourites favourites;
 
-    private IClickOnPostListener clickOnPostListener;
+    private final IClickOnPostListener clickOnPostListener;
 
     public PostsAdapter(IClickOnPostListener clickOnPostListener) {
         PostBookChallengeApplication.getMyComponent().inject(this);

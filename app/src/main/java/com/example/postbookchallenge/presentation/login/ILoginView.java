@@ -2,8 +2,6 @@ package com.example.postbookchallenge.presentation.login;
 
 import com.example.postbookchallenge.presentation.base.IBaseView;
 
-import androidx.annotation.NonNull;
-
 public interface ILoginView
         extends IBaseView {
     /**

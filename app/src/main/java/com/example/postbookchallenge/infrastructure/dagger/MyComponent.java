@@ -12,6 +12,6 @@ import javax.inject.Singleton;
 public interface MyComponent {
     void inject(CommentsPresenter instance);
     void inject(LoginPresenter instance);
-    void inject(PostsAdapter postsinstance);
+    void inject(PostsAdapter instance);
     void inject(PostsPresenter instance);
 }

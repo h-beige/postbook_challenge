@@ -67,6 +67,9 @@ public class PostsPresenter
     @Override
     public void filter(int filterState) {
 
+        //store filterState, to direct it to the instance state onPause()
+        this.filterState = filterState;
+
         view.startLoading();
         Disposable disposable = postsUseCase
                 .loadPosts(userId, filterState, favourites.getFavouritePosts())
